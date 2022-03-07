@@ -25,10 +25,17 @@
 
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-      <div class="container-fluid d-flex flex-row d-flex justify-content-between ms-md-5 ms-sm-1">
+      <div class="container-fluid d-flex flex-row justify-content-between ms-md-5 ms-sm-1">
         <div class="d-flex flex-column flex-md-row">
           <a class="navbar-brand text-white" href="">Eu</a>
-          <button type="button" id="btn_table" class="bg-dark text-white border-0">Table</button>
+          <button
+            type="button"
+            id="btn_table"
+            class="btn btn-dark text-white border-0"
+            onclick="table_detail(api_adress)"
+          >
+            Table
+          </button>
         </div>
         <div class="">
           <button class="navbar-toggler" type="button">
@@ -55,10 +62,12 @@
         >.
       </p>
     </div>
+
     <div class="container-fluid ps-md-5 ps-sm-1">
       <h2 id="sec_title">test</h2>
       <div id="div_affichage" class="container-fluid"></div>
     </div>
+
     <script src="index.js"></script>
   </body>
 </html>
