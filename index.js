@@ -1,6 +1,7 @@
 document.getElementById("title_main").innerText = "European region countries";
+let text_error = "Probleme of loading the list, please click on one of the buton. ";
 
-const api_adress = "https://restcountriesS.com/v3.1/all";
+const api_adress = "https://restcountries.com/v3.1/allf";
 const api_adress_reload = "https://restcountries.com/v3.1/all";
 
 render(api_adress);
@@ -23,6 +24,7 @@ function render_reload(str) {
 //##########################################################################################
 
 function render(api_adress) {
+  let div_affichage = document.getElementById("div_affichage");
   console.log("adresse visée", api_adress);
   document.getElementById("sec_title").innerText = "List of countries";
 
@@ -39,12 +41,14 @@ function render(api_adress) {
           );
         });
       } else {
+        div_affichage.textContent = text_error + " Error status " + "[ " + res.status + " ]";
         console.log("in else status :", res.status);
         let btn_textContent = "Reload List";
         render_reload(btn_textContent);
       }
     })
     .catch((error) => {
+      div_affichage.textContent = text_error + "[ " + error + " ]";
       console.error(error);
       console.log("in catch list");
       let btn_textContent = "Reload List";
@@ -98,6 +102,7 @@ function table_detail(api_adress) {
       if (res.status == 200) {
         const countries = res.json();
         countries.then((res_new) => {
+          let text_error = "Probleme of loading the list, please click on one of the buton. ";
           //console.log(res_new);
           let array_countries_obj = [];
           let countrie_name;
@@ -132,12 +137,14 @@ function table_detail(api_adress) {
           addTable(array_countries_obj);
         });
       } else {
+        div_affichage.textContent = text_error + " Error status " + "[ " + res.status + " ]";
         console.log("in else detailed List", res.status);
         let btn_textContent = "Reload detailed List";
         render_reload(btn_textContent);
       }
     })
     .catch((error) => {
+      div_affichage.textContent = text_error + "[ " + error + " ]";
       console.log("dans le catch detailed list");
       console.error(error);
       let btn_textContent = "Reload detailed List";
