@@ -1,37 +1,20 @@
 document.getElementById("title_main").innerText = "European region countries";
 
-const api_adress = "https://restcountries.com/v3.1/allf";
+const api_adress = "https://restcountriesS.com/v3.1/all";
 const api_adress_reload = "https://restcountries.com/v3.1/all";
 
 render(api_adress);
 
 //###---Gestion d'erreur---###############################################################
 
-function btnReload(str) {
-  const div_affichage = document.getElementById("div_affichage");
-  let div_btn_reload = document.createElement("div");
-  let button_reload = document.createElement("button");
-
-  div_btn_reload.classList = "container-fluid d-flex justify-content-evenly ps-md-5 ps-sm-1";
-
-  button_reload.textContent = str;
-  button_reload.id = "btn_reload";
-  button_reload.classList =
-    "btn text-green border-0 my-md-3 my-sm-1 rounded-3 shadow-lg p-3 mb-5 bg-body rounded";
-  button_reload.setAttribute("onclick", "render_reload()");
-
-  div_btn_reload.appendChild(button_reload);
-  div_affichage.appendChild(div_btn_reload);
-}
-
-function render_reload() {
-  const btn_reload_text = document.getElementById("btn_reload").innerText;
+function render_reload(str) {
+  const btn_reload_text = str;
   console.log("btn", btn_reload_text);
-  if (btn_reload_text == "Reload List") {
+  if (btn_reload_text == "Reload List Eu") {
     console.log("request of new EU list");
     render(api_adress_reload);
   }
-  if (btn_reload_text == "Reload detailed List") {
+  if (btn_reload_text == "Reload Detailed List") {
     console.log("request of new detailed list");
     table_detail(api_adress_reload);
   }
@@ -42,37 +25,30 @@ function render_reload() {
 function render(api_adress) {
   console.log("adresse visée", api_adress);
   document.getElementById("sec_title").innerText = "List of countries";
-  let array_countrys_EU = [];
 
   fetch(api_adress)
     .then((res) => {
       console.log("2", res.status);
       if (res.status === 200) {
-        let countrie_name;
         const countries = res.json();
         countries.then((res_new) => {
-          let b = 0;
-          for (let i = 0; i < res_new.length; i++) {
-            if (res_new[i].continents.includes("Europe")) {
-              b = b + 1;
-              countrie_name = res_new[i].name.official;
-              array_countrys_EU.push(countrie_name);
-            }
-          }
-          addCountrie(array_countrys_EU);
+          addCountrie(
+            res_new
+              .filter((list_element) => list_element.continents.includes("Europe"))
+              .map((list_element) => list_element.name.official)
+          );
         });
       } else {
-        console.log("in else");
+        console.log("in else status :", res.status);
         let btn_textContent = "Reload List";
-        console.log(btn_textContent);
-        btnReload(btn_textContent);
+        render_reload(btn_textContent);
       }
     })
     .catch((error) => {
+      console.error(error);
       console.log("in catch list");
       let btn_textContent = "Reload List";
-      console.log(btn_textContent);
-      btnReload(btn_textContent);
+      render_reload(btn_textContent);
     });
 }
 
@@ -105,9 +81,13 @@ function addCountrie(array_countrys_EU) {
 
 function table_detail(api_adress) {
   console.log("adresse visée", api_adress);
+  const sec_title = document.getElementById("text_1");
   const div_affichage = document.getElementById("div_affichage");
   document.getElementById("title_main").innerText = "HTML table presentation";
 
+  if (sec_title.innerHTML != null && sec_title.innerHTML != "") {
+    sec_title.innerHTML = "";
+  }
   if (div_affichage.innerHTML != null && div_affichage.innerHTML != "") {
     div_affichage.innerHTML = "";
   }
@@ -152,16 +132,16 @@ function table_detail(api_adress) {
           addTable(array_countries_obj);
         });
       } else {
-        console.log("in else");
+        console.log("in else detailed List", res.status);
         let btn_textContent = "Reload detailed List";
-        btnReload(btn_textContent);
+        render_reload(btn_textContent);
       }
     })
-    .catch((err) => {
-      console.log("dans le catch detail list");
-      console.log(err);
+    .catch((error) => {
+      console.log("dans le catch detailed list");
+      console.error(error);
       let btn_textContent = "Reload detailed List";
-      btnReload(btn_textContent);
+      render_reload(btn_textContent);
     });
 }
 
@@ -171,7 +151,7 @@ function addTable(array_countries_obj) {
   const tbody = document.createElement("tbody");
   const p_source = document.createElement("p");
 
-  table.classList = "table table-bordered table-hover";
+  table.classList = "table table-bordered table-borderless table-hover";
 
   var th_countrie_name = document.createElement("th");
   var th_area = document.createElement("th");
