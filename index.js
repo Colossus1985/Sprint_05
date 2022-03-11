@@ -1,7 +1,7 @@
 document.getElementById("title_main").innerText = "European region countries";
 let text_error = "Probleme of loading the list, please click on one of the buton. ";
 
-const api_adress = "https://restcountriSes.com/v3.1/all";
+const api_adress = "https://restcountries.com/v33.1/all";
 const api_adress_reload = "https://restcountries.com/v3.1/all";
 
 render(api_adress);
