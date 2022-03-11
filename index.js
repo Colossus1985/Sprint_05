@@ -50,7 +50,7 @@ function render(api_adress) {
     .catch((error) => {
       div_affichage.textContent = text_error + "[ " + error + " ]";
       console.error(error);
-      console.log("in catch list");
+      console.log("in catch for Eu list");
       let btn_textContent = "Reload List";
       render_reload(btn_textContent);
     });
@@ -137,14 +137,14 @@ function table_detail(api_adress) {
         });
       } else {
         div_affichage.textContent = text_error + " Error status " + "[ " + res.status + " ]";
-        console.log("in else detailed List", res.status);
+        console.log("In else for EU Table", res.status);
         let btn_textContent = "Reload Table";
         render_reload(btn_textContent);
       }
     })
     .catch((error) => {
       div_affichage.textContent = text_error + "[ " + error + " ]";
-      console.log("dans le catch detailed list");
+      console.log("In catch for EU Table");
       console.error(error);
       let btn_textContent = "Reload Table";
       render_reload(btn_textContent);
